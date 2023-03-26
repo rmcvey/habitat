@@ -12,8 +12,9 @@ We optimized our implementation to ensure privacy preservation, minimal disk spa
 
 The trust score is calculated using a weighted average of two components:
 
-Device Trust: The proportion of known devices connected or nearby (Bluetooth) in the environment.
-Visit Trust: A time decay approach that takes into account the frequency and recency of visits to the habitat.
+1. **Device Trust**: The proportion of known devices connected or nearby (Bluetooth) in the environment.
+2. **Visit Trust**: A time decay approach that takes into account the frequency and recency of visits to the habitat.
+
 The maximum possible trust score for the current number of visits is calculated using the time decay approach. The final trust score is then normalized to a range of 1.0 to 10.0.
 
 Usage
