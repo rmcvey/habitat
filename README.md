@@ -28,7 +28,7 @@ go get github.com/willf/bloom
 2. Compile and run the program:
 
 ```css
-go build main.go
+go build .
 ./habitat
 ```
 
