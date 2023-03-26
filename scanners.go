@@ -1,0 +1,130 @@
+package main
+
+import (
+	"encoding/json"
+	"encoding/xml"
+	"os/exec"
+)
+
+type SystemProfilerBluetooth struct {
+	SPBluetoothDataType []struct {
+		DeviceConnected []map[string]struct {
+			DeviceAddress string `json:"device_address"`
+		} `json:"device_connected"`
+	} `json:"SPBluetoothDataType"`
+}
+
+func scanBluetoothDevices() ([]string, error) {
+	devices := []string{}
+
+	cmd := exec.Command("system_profiler", "-json", "SPBluetoothDataType")
+	output, err := cmd.Output()
+	if err != nil {
+		return devices, err
+	}
+
+	var spBluetooth SystemProfilerBluetooth
+	err = json.Unmarshal(output, &spBluetooth)
+	if err != nil {
+		return devices, err
+	}
+
+	for _, deviceConnected := range spBluetooth.SPBluetoothDataType[0].DeviceConnected {
+		for _, device := range deviceConnected {
+			devices = append(devices, device.DeviceAddress)
+		}
+	}
+
+	return devices, nil
+}
+
+type WifiScanResult struct {
+	Networks []struct {
+		IE string `xml:"IE"`
+	} `xml:"array>dict"`
+}
+
+func scanWifiNetworks() ([]string, error) {
+	networks := []string{}
+
+	cmd := exec.Command("/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport", "-s", "--xml")
+	output, err := cmd.Output()
+	if err != nil {
+		return networks, err
+	}
+
+	var wifiScanResult WifiScanResult
+	err = xml.Unmarshal(output, &wifiScanResult)
+	if err != nil {
+		return networks, err
+	}
+
+	for _, network := range wifiScanResult.Networks {
+		networks = append(networks, network.IE)
+	}
+
+	return networks, nil
+}
+
+// func scanBluetoothDevices() ([]string, error) {
+// 	devices := []string{}
+
+// 	adapter, err := api.GetDefaultAdapter()
+// 	if err != nil {
+// 		return devices, err
+// 	}
+
+// 	discoveredDevices, err := adapter.GetDevices()
+// 	if err != nil {
+// 		return devices, err
+// 	}
+
+// 	for _, dev := range discoveredDevices {
+// 		d, err := device.NewDevice1(dev.Path())
+// 		if err != nil {
+// 			continue
+// 		}
+// 		properties, _ := d.GetProperties()
+// 		devices = append(devices, properties.Address)
+// 	}
+
+// 	return devices, nil
+// }
+/*
+func scanWifiNetworks() ([]string, error) {
+	networks := []string{}
+
+	return networks, nil
+
+	// client, err := wifi.New()
+	// if err != nil {
+	// 	return networks, err
+	// }
+	// defer client.Close()
+
+	// interfaces, err := client.Interfaces()
+	// if err != nil {
+	// 	return networks, err
+	// }
+
+	// for _, iface := range interfaces {
+	// 	// Skip non-station interfaces
+	// 	if iface.Type != wifi.InterfaceTypeStation {
+	// 		continue
+	// 	}
+
+	// 	bssList, err := client.BSS(iface)
+	// 	if err != nil {
+	// 		return networks, err
+	// 	}
+
+	// 	for _, bss := range bssList {
+	// 		// Filter out hidden SSIDs (length 0)
+	// 		if len(bss.SSID) > 0 {
+	// 			networks = append(networks, string(bss.SSID))
+	// 		}
+	// 	}
+	// }
+
+	// return networks, nil
+}*/

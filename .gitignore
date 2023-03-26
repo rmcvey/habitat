@@ -1,0 +1,4 @@
+trust_data*.json
+*.db
+notes.txt
+habitat
