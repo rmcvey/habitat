@@ -1,10 +1,6 @@
 package main
 
-type Ecosystem struct {
-	M float64
-	K float64
-	B string
-}
+import "fmt"
 
 func main() {
 	// Scan for Bluetooth devices and WiFi networks
@@ -15,5 +11,8 @@ func main() {
 	db := initDatabase()
 	defer db.Close()
 
-	updateTrustData(db, btDevices, wifiNetworks)
+	habitat := Habitat{}
+	habitat.determineHabitatTrust(db, btDevices, wifiNetworks)
+
+	fmt.Printf("%f\n", habitat.TrustScore)
 }
