@@ -10,11 +10,10 @@ import (
 	"github.com/willf/bloom"
 )
 
-
 const (
-	bloomFilterSize        = 1000
+	bloomFilterSize          = 1000
 	bloomFilterHashFunctions = 5
-	maxExpectedDevices = 20
+	maxExpectedDevices       = 20
 )
 
 type Ecosystem struct {
@@ -133,8 +132,8 @@ func (h *Habitat) calculateTrustScore(btDevices []string, wifiNetworks []string)
 
 	// Normalize the trust score to the 1.0-10.0 range
 	weightDevices := 0.7
-	deviceTrust := float64(len(btDevices) + len(wifiNetworks)) / float64(maxExpectedDevices)
-	h.TrustScore = ((weightDevices * deviceTrust) + ((1 - weightDevices) * visitTrust)) / maxVisitTrust * 9 + 1
+	deviceTrust := float64(len(btDevices)+len(wifiNetworks)) / float64(maxExpectedDevices)
+	h.TrustScore = ((weightDevices*deviceTrust)+((1-weightDevices)*visitTrust))/maxVisitTrust*9 + 1
 }
 
 func (h *Habitat) updateTrustScore() {
