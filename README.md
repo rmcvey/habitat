@@ -7,74 +7,21 @@ The Habitat Trust Score calculates a floating-point score between 1 and 10 for e
 ## Architecture
 
 ```mermaid
-solid habitat
-  facet normal 0 0 1
-    outer loop
-      vertex 0 0 0
-      vertex 0 1 0
-      vertex 1 0 0
-    endloop
-  endfacet
-  facet normal 0 0 1
-    outer loop
-      vertex 0 1 0
-      vertex 1 1 0
-      vertex 1 0 0
-    endloop
-  endfacet
-  facet normal 0 1 0
-    outer loop
-      vertex 0 0 0
-      vertex 0 0 1
-      vertex 0 1 0
-    endloop
-  endfacet
-  facet normal 0 1 0
-    outer loop
-      vertex 0 0 1
-      vertex 0 1 1
-      vertex 0 1 0
-    endloop
-  endfacet
-  facet normal 1 0 0
-    outer loop
-      vertex 0 0 0
-      vertex 1 0 0
-      vertex 0 0 1
-    endloop
-  endfacet
-  facet normal 1 0 0
-    outer loop
-      vertex 1 0 0
-      vertex 1 0 1
-      vertex 0 0 1
-    endloop
-  endfacet
-  // Peripheral 1
-  facet normal 0 0 -1
-    outer loop
-      vertex 0.3 0.3 0.3
-      vertex 0.4 0.3 0.3
-      vertex 0.3 0.4 0.3
-    endloop
-  endfacet
-  // Peripheral 2
-  facet normal 0 0 -1
-    outer loop
-      vertex 0.6 0.3 0.3
-      vertex 0.7 0.3 0.3
-      vertex 0.6 0.4 0.3
-    endloop
-  endfacet
-  // Peripheral 3
-  facet normal 0 0 -1
-    outer loop
-      vertex 0.3 0.6 0.3
-      vertex 0.4 0.6 0.3
-      vertex 0.3 0.7 0.3
-    endloop
-  endfacet
-endsolid
+graph TD
+    A[Main] -->|Scan Bluetooth Devices| B[scanBluetoothDevices]
+    A -->|Scan WiFi Networks| C[scanWifiNetworks]
+    A -->|Initialize Database| D[initDatabase]
+    A -->|Determine Habitat Trust Score| E[determineHabitatTrust]
+    B --> F[scanners_darwin.go / scanners_windows.go]
+    C --> G[scanners_darwin.go / scanners_windows.go]
+    E -->|Create Ecosystem| H[createEcosystem]
+    E -->|Get Ecosystem from DB| I[getEcosystemFromDB]
+    E -->|Update Ecosystem in DB| J[updateEcosystemInDB]
+    E -->|Calculate Trust Score| K[calculateTrustScore]
+    H --> L[Bloom filter for devices and networks]
+    L --> M[Add items]
+    L --> N[Marshal to JSON]
+    K --> O[Compute Trust Score based on TotalVisits, VisitTimes, and Devices]
 ```
 
 ## Optimization

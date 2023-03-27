@@ -2,10 +2,26 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"log"
 	"math"
 	"time"
+
+	"github.com/willf/bloom"
 )
+
+
+const (
+	bloomFilterSize        = 1000
+	bloomFilterHashFunctions = 5
+	maxExpectedDevices = 20
+)
+
+type Ecosystem struct {
+	M float64
+	K float64
+	B string
+}
 
 type Habitat struct {
 	ID         int64
@@ -13,6 +29,27 @@ type Habitat struct {
 	Ecosystem  Ecosystem
 	TrustScore float64
 	db         *sql.DB
+}
+
+func createEcosystem(btDevices []string, wifiNetworks []string) Ecosystem {
+	filter := bloom.New(bloomFilterSize, bloomFilterHashFunctions)
+
+	for _, device := range btDevices {
+		filter.AddString(device)
+	}
+	for _, network := range wifiNetworks {
+		filter.AddString(network)
+	}
+
+	filterData, _ := filter.MarshalJSON()
+	filterJSON := make(map[string]interface{})
+	json.Unmarshal(filterData, &filterJSON)
+
+	return Ecosystem{
+		M: filterJSON["m"].(float64),
+		K: filterJSON["k"].(float64),
+		B: filterJSON["b"].(string),
+	}
 }
 
 func (h *Habitat) determineHabitatTrust(db *sql.DB, btDevices []string, wifiNetworks []string) {
