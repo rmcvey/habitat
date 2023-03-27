@@ -1,5 +1,7 @@
 # Habitat (Trust Score)
 
+[![Go](https://github.com/rmcvey/habitat/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/rmcvey/habitat/actions/workflows/go.yml)
+
 Habitat is an experimental project that aims to measure the level of trust in the digital environments or "habitats" that people occupy (aka [PAN](https://en.wikipedia.org/wiki/Personal_area_network)). These habitats can include personal spaces like home offices, workspaces, or even public places like airport terminals. The idea is that as users grow familiar with their digital surroundings, they develop trust in these environments. The motivation behind this project is to accommodate users who don't want to (or can't) use precise location data for authentication decisions but still desire some assurance that a device is not stolen or in an unfamiliar place. By quantifying trust based on the presence of known devices and networks in a privacy-preserving manner, we can reduce security friction and provide a more seamless user experience in familiar environments.
 
 The Habitat Trust Score calculates a floating-point score between 1 and 10 for each habitat, representing the level of trust we should have in the device. This score is based on factors such as the number of known devices connected or nearby (Bluetooth) and the familiarity of the Wi-Fi networks in the environment.
