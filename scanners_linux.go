@@ -4,6 +4,10 @@ import (
 	"os/exec"
 )
 
+func scanBluetoothDevices() ([]string, error) {
+	return []string{}, nil
+}
+
 func scanWifiNetworks() ([]string, error) {
 	// Replace 'wlan0' with the appropriate wireless interface on your system
 	cmd := exec.Command("sudo", "iwlist", "wlan0", "scan")
@@ -18,5 +22,5 @@ func scanWifiNetworks() ([]string, error) {
 
 func parseLinuxWifiOutput(output string) []string {
 	// TODO Implement the parsing logic here
-	return []string{}
+	return []string{}, nil
 }
