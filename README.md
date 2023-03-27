@@ -4,6 +4,79 @@ Habitat is an experimental project that aims to measure the level of trust in th
 
 The Habitat Trust Score calculates a floating-point score between 1 and 10 for each habitat, representing the level of trust we should have in the device. This score is based on factors such as the number of known devices connected or nearby (Bluetooth) and the familiarity of the Wi-Fi networks in the environment.
 
+## Architecture
+
+```mermaid
+solid habitat
+  facet normal 0 0 1
+    outer loop
+      vertex 0 0 0
+      vertex 0 1 0
+      vertex 1 0 0
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0 1 0
+      vertex 1 1 0
+      vertex 1 0 0
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex 0 0 0
+      vertex 0 0 1
+      vertex 0 1 0
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex 0 0 1
+      vertex 0 1 1
+      vertex 0 1 0
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex 0 0 0
+      vertex 1 0 0
+      vertex 0 0 1
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex 1 0 0
+      vertex 1 0 1
+      vertex 0 0 1
+    endloop
+  endfacet
+  // Peripheral 1
+  facet normal 0 0 -1
+    outer loop
+      vertex 0.3 0.3 0.3
+      vertex 0.4 0.3 0.3
+      vertex 0.3 0.4 0.3
+    endloop
+  endfacet
+  // Peripheral 2
+  facet normal 0 0 -1
+    outer loop
+      vertex 0.6 0.3 0.3
+      vertex 0.7 0.3 0.3
+      vertex 0.6 0.4 0.3
+    endloop
+  endfacet
+  // Peripheral 3
+  facet normal 0 0 -1
+    outer loop
+      vertex 0.3 0.6 0.3
+      vertex 0.4 0.6 0.3
+      vertex 0.3 0.7 0.3
+    endloop
+  endfacet
+endsolid
+```
+
 ## Optimization
 
 We optimized our implementation to ensure privacy preservation, minimal disk space usage, and adaptability to changing environments. We've used a Bloom filter to represent unique combinations of connected and nearby devices, and a time decay approach to calculate trust scores based on the frequency of visits and the presence of familiar devices.
