@@ -22,5 +22,5 @@ func scanWifiNetworks() ([]string, error) {
 
 func parseLinuxWifiOutput(output string) []string {
 	// TODO Implement the parsing logic here
-	return []string{}, nil
+	return []string{}
 }
