@@ -28,7 +28,7 @@ graph TD
 
 ## Optimization
 
-We optimized our implementation to ensure privacy preservation, minimal disk space usage, and adaptability to changing environments. We've used a Bloom filter to represent unique combinations of connected and nearby devices, and a time decay approach to calculate trust scores based on the frequency of visits and the presence of familiar devices.
+I optimized to ensure privacy preservation, minimal disk space usage, and adaptability to changing environments. I used a Bloom filter to represent unique combinations of connected and nearby devices, and a time decay approach to calculate trust scores based on the frequency of visits and the presence of familiar devices.
 
 ## Scoring Algorithm
 
